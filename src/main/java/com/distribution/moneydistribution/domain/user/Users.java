@@ -1,22 +1,18 @@
 package com.distribution.moneydistribution.domain.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.distribution.moneydistribution.domain.BaseTimeEntity;
 import jakarta.persistence.*;
-import jdk.jfr.Enabled;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.management.relation.Role;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Users {
+public class Users extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +31,11 @@ public class Users {
     @Column(nullable = false)
     private String phoneNum;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nickname;
 
     @Column(nullable = false)
     private Integer age;
-
-    private LocalDate createdAt;
 
     @Enumerated(EnumType.STRING)
     private Role role; // 권한 -> USER, ADMIN
