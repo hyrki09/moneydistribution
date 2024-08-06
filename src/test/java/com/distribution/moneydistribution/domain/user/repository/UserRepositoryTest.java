@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -122,6 +124,77 @@ class UserRepositoryTest {
         Assertions.assertThat(updateUser.getName()).isEqualTo(updateName);
         Assertions.assertThat(updateUser.getName()).isNotEqualTo(users1.getName());
 
+    }
+
+    @Test
+    public void delete() throws Exception {
+        //given
+        Users users1 = Users.builder()
+                .name("이름1")
+                .password("12342")
+                .age(27)
+                .email("test1@naver.com")
+                .phoneNum("01012345671")
+                .nickname("nick")
+                .role(Role.USER)
+                .build();
+
+        userRepository.save(users1);
+        em.clear();
+
+
+
+
+        userRepository.delete(users1);
+        em.flush();
+
+        //then
+        assertThrows(Exception.class, () -> userRepository.findById(users1.getId()).orElseThrow(Exception::new));
+    }
+
+    @Test
+    public void existByEmail_SUCCESS() throws Exception {
+        //given
+        String email = "wns@naver.com";
+        Users users1 = Users.builder()
+                .name("이름1")
+                .password("12342")
+                .age(27)
+                .email(email)
+                .phoneNum("01012345671")
+                .nickname("nick")
+                .role(Role.USER)
+                .build();
+        userRepository.save(users1);
+        em.clear();
+
+        Assertions.assertThat(userRepository.existsByEmail(email)).isTrue();
+        Assertions.assertThat(userRepository.existsByEmail(email+"qwer")).isFalse();
+
+
+
+    }
+
+    @Test
+    public void findByEmail() throws Exception {
+        //given
+        String email = "wns@naver.com";
+        Users users1 = Users.builder()
+                .name("이름1")
+                .password("12342")
+                .age(27)
+                .email(email)
+                .phoneNum("01012345671")
+                .nickname("nick")
+                .role(Role.USER)
+                .build();
+        userRepository.save(users1);
+        em.clear();
+
+        Assertions.assertThat(userRepository.findByEmail(email).get().getName()).isEqualTo(users1.getName());
+        Assertions.assertThat(userRepository.findByEmail(email).get().getNickname()).isEqualTo(users1.getNickname());
+        Assertions.assertThat(userRepository.findByEmail(email).get().getPhoneNum()).isEqualTo(users1.getPhoneNum());
+        assertThrows(Exception.class, () -> userRepository.findByEmail(email+"123123").orElseThrow(() -> new Exception()));
     }
 
 
