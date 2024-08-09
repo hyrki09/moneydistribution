@@ -2,6 +2,7 @@ package com.distribution.moneydistribution.domain.user.repository;
 
 import com.distribution.moneydistribution.domain.user.Role;
 import com.distribution.moneydistribution.domain.user.Users;
+import com.distribution.moneydistribution.domain.user.UsersRepository;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -11,15 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 class UserRepositoryTest {
 
-    @Autowired UserRepository userRepository;
+    @Autowired
+    UsersRepository userRepository;
     @Autowired
     EntityManager em;
 

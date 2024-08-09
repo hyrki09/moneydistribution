@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginController {
 
 
-
     @GetMapping("")
     public String loginPage() {
         log.info("login 통과");
 
         // 현재 로그인 세션이 남아있는지 확인 필요
-
 
 
         return "login/loginpage";
@@ -29,12 +27,19 @@ public class LoginController {
     public String login(
             @RequestParam String id,
             @RequestParam String password
-    ){
+    ) {
         log.info("로그인 시도");
         log.info("id : {}", id);
         log.info("password : {}", password);
 
 
         return "login/loginpage";
+    }
+
+    @GetMapping("/join")
+    public String userJoinPage() {
+
+        log.info("다섯번 하는게 맞냐?");
+        return "/login/join";
     }
 }
