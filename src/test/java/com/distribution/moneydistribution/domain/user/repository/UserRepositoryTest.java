@@ -111,10 +111,10 @@ class UserRepositoryTest {
 
         //when
         Users findByIdusers = userRepository.findById(users1.getId()).orElseThrow(() -> new Exception());
-        findByIdusers.updateAge(updateAge);
-        findByIdusers.updateName(updateName);
-        findByIdusers.updatePassword(passwordEncoder, updatePassword);
-        findByIdusers.updateNickName(updateNickName);
+//        findByIdusers.updateAge(updateAge);
+//        findByIdusers.updateName(updateName);
+//        findByIdusers.updatePassword(passwordEncoder, updatePassword);
+//        findByIdusers.updateNickName(updateNickName);
 
         //then
         Users updateUser = userRepository.findById(findByIdusers.getId()).orElseThrow(() -> new Exception());

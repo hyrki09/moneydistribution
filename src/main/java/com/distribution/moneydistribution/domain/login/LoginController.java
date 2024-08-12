@@ -36,10 +36,5 @@ public class LoginController {
         return "login/loginpage";
     }
 
-    @GetMapping("/join")
-    public String userJoinPage() {
 
-        log.info("다섯번 하는게 맞냐?");
-        return "/login/join";
-    }
 }

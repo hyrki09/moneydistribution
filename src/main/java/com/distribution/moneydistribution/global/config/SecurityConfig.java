@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -28,7 +29,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.disable())
                     .authorizeHttpRequests(request -> request
                             .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                            .requestMatchers("/status", "/css/**","/js/**","/login/join").permitAll()
+                            .requestMatchers("/status", "/css/**","/js/**","/register","/auth/register").permitAll()
                             .anyRequest() // 어떤 요청이든 인증필요
                             .authenticated() // 어떤 요청이라도 인증 필요
                     )
@@ -46,7 +47,9 @@ public class SecurityConfig {
 
     @Bean
     PasswordEncoder passwordEncoder(){
-        return new SimplePasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
+
+
 
 }

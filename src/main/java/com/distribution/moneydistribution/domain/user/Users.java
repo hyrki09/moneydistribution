@@ -19,14 +19,14 @@ public class Users extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
     @Column(nullable = false, unique = true, length = 30)
     private String email;
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
     private String phoneNum;
@@ -50,23 +50,31 @@ public class Users extends BaseTimeEntity {
         this.password = passwordEncoder.encode(password);
     }
 
-    public void updateName(String name) {
-        this.name = name;
-    }
+//    public void updateName(String name) {
+//        this.name = name;
+//    }
 
-    public void updateNickName(String nickname) {
-        this.nickname = nickname;
-    }
+//    public void updateNickName(String nickname) {
+//        this.nickname = nickname;
+//    }
 
-    public void updateAge(int age) {
-        this.age = age;
-    }
+//    public void updateAge(int age) {
+//        this.age = age;
+//    }
 
     // 패스워드 암호화
-    public void encodePassword(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(password);
-    }
+//    public void encodePassword(PasswordEncoder passwordEncoder) {
+//        this.password = passwordEncoder.encode(password);
+//    }
 
+//     변형해야함
+    public static Users createUser(String email, String password, String name, String phoneNum, String nickname, int age) {
+        return new Users(null, email, password, name, phoneNum, nickname, age, Role.USER);
+//        return new Users(null, email, );
+    }
+//    public static Users createUser(String email, String password) {
+//        return new Users(null, email, password, Role.USER);
+//    }
 
 
 }
