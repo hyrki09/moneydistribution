@@ -20,7 +20,9 @@ public class RegisterService {
     }
 
     public Long registerUser(String email, String password, String name, String phoneNum, String nickname, int age){
-        Users users = Users.createUser(email, passwordEncoder.encode(password), name, phoneNum, nickname, age);
+        String encode = passwordEncoder.encode(password);
+        log.info("encode : {} ", encode);
+        Users users = Users.createUser(email,encode, name, phoneNum, nickname, age);
         validateDuplicateUser(users);
         log.info("여기가 문제임1");
         usersRepository.save(users);
