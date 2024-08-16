@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class IndexController {
@@ -25,15 +26,19 @@ public class IndexController {
 
     // TEST
     @RequestMapping("/test/admin")
-    @AdminAuthorize
+    @ResponseBody
+//    @AdminAuthorize
     public String adminPage() {
-        return "/main/admin";
+        return "Admin Controller";
+//        return "/main/admin";
     }
 
     @RequestMapping("/test/user")
-    @UserAuthorize
+    @ResponseBody
+//    @UserAuthorize
     public String userPage() {
-        return "/main/main";
+        return "Main Controller";
+//        return "/main/main";
     }
 
 
