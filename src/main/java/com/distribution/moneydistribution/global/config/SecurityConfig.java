@@ -1,10 +1,13 @@
 package com.distribution.moneydistribution.global.config;
 
+import com.distribution.moneydistribution.domain.login.LoginFilter;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,14 +15,26 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
+
+    // AuthenticationManager가 인자로 받을 AuthenticationConfiguration 객체 생성자 주입함
+    private final AuthenticationConfiguration authenticationConfiguration;
+
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration) {
+        this.authenticationConfiguration = authenticationConfiguration;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
 
     // form 로그인 형식
 //    @Bean
@@ -58,6 +73,8 @@ public class SecurityConfig {
                                                 .requestMatchers("/login", "/","/join").permitAll()
                                                 .requestMatchers("/test/admin").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
+                // 필터 추가  LoginFilter()를 인자로 받음 (AuthenticationManager() 메서드에  authenticationConfiguration 객체를 넣어야 함) 따라서 등록필요
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class)
                 // 세션 설정
                 .sessionManagement((session) -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -68,6 +85,8 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+
 
 
 
