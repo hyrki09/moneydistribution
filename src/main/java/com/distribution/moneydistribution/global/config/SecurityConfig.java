@@ -1,6 +1,7 @@
 package com.distribution.moneydistribution.global.config;
 
 import com.distribution.moneydistribution.domain.login.LoginFilter;
+import com.distribution.moneydistribution.global.jwt.JWTUtil;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -26,9 +27,11 @@ public class SecurityConfig {
 
     // AuthenticationManager가 인자로 받을 AuthenticationConfiguration 객체 생성자 주입함
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration) {
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
         this.authenticationConfiguration = authenticationConfiguration;
+        this.jwtUtil = jwtUtil;
     }
 
     @Bean
@@ -74,7 +77,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/test/admin").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
                 // 필터 추가  LoginFilter()를 인자로 받음 (AuthenticationManager() 메서드에  authenticationConfiguration 객체를 넣어야 함) 따라서 등록필요
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 // 세션 설정
                 .sessionManagement((session) -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
