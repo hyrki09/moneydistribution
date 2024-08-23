@@ -1,6 +1,7 @@
 package com.distribution.moneydistribution.global.config;
 
 import com.distribution.moneydistribution.domain.login.LoginFilter;
+import com.distribution.moneydistribution.global.jwt.JWTFilter;
 import com.distribution.moneydistribution.global.jwt.JWTUtil;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +78,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/test/admin").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
                 // 필터 추가  LoginFilter()를 인자로 받음 (AuthenticationManager() 메서드에  authenticationConfiguration 객체를 넣어야 함) 따라서 등록필요
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 // 세션 설정
                 .sessionManagement((session) -> session

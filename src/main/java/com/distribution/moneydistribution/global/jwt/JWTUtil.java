@@ -1,6 +1,6 @@
 package com.distribution.moneydistribution.global.jwt;
 
-import com.distribution.moneydistribution.domain.user.Role;
+
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,15 +25,15 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().get("username",String.class);
     }
 
-    public Role getRole(String token) {
-        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().get("role", Role.class);
+    public String getRole(String token) {
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().get("role", String.class);
     }
 
     public Boolean isExpired(String token) {
         return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createJwt(String username, Role role, Long expiredMs) {
+    public String createJwt(String username, String role, Long expiredMs) {
         return Jwts.builder()
                 .claim("username", username)
                 .claim("role", role)

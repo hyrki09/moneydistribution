@@ -1,6 +1,6 @@
 package com.distribution.moneydistribution.domain.login;
 
-import com.distribution.moneydistribution.domain.user.Role;
+
 import com.distribution.moneydistribution.global.jwt.JWTUtil;
 import com.distribution.moneydistribution.global.jwt.MyUserDetails;
 import jakarta.servlet.FilterChain;
@@ -60,13 +60,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
 
-        Role role = Role.valueOf(auth.getAuthority());
+        String role = auth.getAuthority();
 
         String token = jwtUtil.createJwt(username, role, 60 * 60 * 10L);
 
         // HTTP 인증 방식은 RFC 7235 정의에 따라
         // Authorization : 타입 인증코드
-        response.addHeader("Authorization", "Bearer" + token);
+        response.addHeader("Authorization", "Bearer " + token);
 
 
     }

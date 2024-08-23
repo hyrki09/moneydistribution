@@ -37,8 +37,8 @@ public class Users extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer age;
 
-    @Enumerated(EnumType.STRING)
-    private Role role; // 권한 -> USER, ADMIN
+//    @Enumerated(EnumType.STRING)
+    private String role; // 권한 -> USER, ADMIN
 
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "users")
@@ -69,8 +69,9 @@ public class Users extends BaseTimeEntity {
 
 //     변형해야함
     public static Users createUser(String email, String password, String name, String phoneNum, String nickname, int age) {
-        return new Users(null, email, password, name, phoneNum, nickname, age, Role.USER);
-//        return new Users(null, email, );
+        return new Users(null, email, password, name, phoneNum, nickname, age, "ROLE_ADMIN");
+//        return new Users(null, email, password, name, phoneNum, nickname, age, Role.USER);
+
     }
 //    public static Users createUser(String email, String password) {
 //        return new Users(null, email, password, Role.USER);
