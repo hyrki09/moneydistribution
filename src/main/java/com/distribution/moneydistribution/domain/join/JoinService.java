@@ -1,4 +1,4 @@
-package com.distribution.moneydistribution.domain.register;
+package com.distribution.moneydistribution.domain.join;
 
 import com.distribution.moneydistribution.domain.user.Users;
 import com.distribution.moneydistribution.domain.user.UsersRepository;

@@ -1,4 +1,4 @@
-package com.distribution.moneydistribution.domain.register;
+package com.distribution.moneydistribution.domain.join;
 
 import lombok.Getter;
 import lombok.Setter;

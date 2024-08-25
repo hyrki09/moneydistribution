@@ -157,18 +157,18 @@
 
 
 <main class="form-signin w-100 m-auto">
-    <form action="/login" method="post">
+    <form id="login-form">
 <!--        <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">
 <!--            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">-->
-            <input type="text" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Email address</label>
+            <input type="text" name="email" class="form-control" id="email" placeholder="name@example.com">
+            <label for="email">Email address</label>
         </div>
         <div class="form-floating">
-            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword">Password</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+            <label for="password">Password</label>
         </div>
 
         <div class="form-check text-start my-3">
@@ -185,6 +185,52 @@
     </form>
 </main>
 <script src="/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', async function(event){
+        event.preventDefault();
+
+        const formData = new FormData();
+
+        const username = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        formData.append('username',username);
+        formData.append('password',password);
+
+        console.log("login page __ id : " + username);
+        console.log("login page __ password : " + password);
+
+        // API 요청
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                body: formData
+            });
+
+            console.log("response : " + response);
+            const data = await response.text();
+            console.log("data : " + response.ok);
+
+            if (response.ok) {
+                console.log("Login successful : " + response);
+                alert('Login success');
+            } else {
+                console.error('Login Failed : ' + response);
+                alert('Login Failed : ' + response.message);
+            }
+        } catch (error){
+            console.error('Error : ' + error);
+            alert('ERROR!!!');
+        }
+
+
+
+
+
+
+    })
+</script>
 
 </body>
 </html>

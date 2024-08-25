@@ -55,7 +55,7 @@ public class SecurityConfig {
 //                    )
 //                    .formLogin(login -> login   // form 방식 로그인 사용
 //                            .loginPage("/login") // 커스텀 로그인 페이지 지정
-////                            .loginProcessingUrl("/login/") // 지정하지 않으면 자동으로 post /login으로 진행
+//                            .loginProcessingUrl("/login/") // 지정하지 않으면 자동으로 post /login으로 진행
 //                            .usernameParameter("email") // 아이디
 //                            .passwordParameter("password") // 비밀번호
 //                            .defaultSuccessUrl("/",true) // 성공 시 index 페이지로 이동
