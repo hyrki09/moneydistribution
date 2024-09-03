@@ -26,7 +26,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Users users = usersService.findOne(email).orElseThrow(() -> new UsernameNot    FoundException("회원 없음"));
 
         log.info("loadUserByUsername");
         log.info("loadUserByUsername_username : {} ", username);
@@ -35,11 +34,5 @@ public class MyUserDetailsService implements UserDetailsService {
 
         log.info("MyUserDetailService _ Users : {}", users);
         return new MyUserDetails(users);
-
-//        return User.builder()
-//                .username(users.getEmail())
-//                .password(users.getPassword())
-//                .roles(String.valueOf(users.getRole()))
-//                .build();
     }
 }

@@ -20,7 +20,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 @Controller
-@ResponseBody
+//@ResponseBody
+@Slf4j
 public class IndexController {
 
 
@@ -38,8 +39,12 @@ public class IndexController {
         String role = auth.getAuthority();
 
 
-        return "main IndexController : " + name + role;
+        log.info("index role : {}", role);
+
+//        return "main IndexController : " + name + role;
+        return "/main/main";
     }
+
 
     // TEST
     @RequestMapping("/test/admin")

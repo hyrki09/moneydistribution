@@ -49,15 +49,11 @@
             e.preventDefault();
 
             const data = new FormData(form);
-            const param = JSON.stringify(Object.fromEntries(data));
-            console.log("param : " + param)
 
-            fetch('/auth/register', {
+
+            fetch('/join', {
                 method: 'POST',
-                body: param,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                body: data
             })
                 .then(response => {
                     console.log(response)
