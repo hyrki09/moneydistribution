@@ -44,20 +44,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf((auth) -> auth.disable())
-                .formLogin((auth) -> auth.disable())
-                .httpBasic((auth) -> auth.disable())
-                // 경로별 인가 작업
                 .authorizeHttpRequests((auth) -> auth
-                                                .requestMatchers("/login", "/","/join","/css/**", "/js/**").permitAll()
-                                                .requestMatchers("/test/admin").hasRole("ADMIN")
-                                                .anyRequest().authenticated())
-                // 필터 추가  LoginFilter()를 인자로 받음 (AuthenticationManager() 메서드에  authenticationConfiguration 객체를 넣어야 함) 따라서 등록필요
-                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
-                // 세션 설정
-                .sessionManagement((session) -> session
-                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        .requestMatchers("/","/login","/join","/css/**", "/js/**").permitAll()
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
+                        .anyRequest().authenticated()
+                );
+
+//        http
+//                .csrf((auth) -> auth.disable())
+//                .formLogin((auth) -> auth.disable())
+//                .httpBasic((auth) -> auth.disable())
+//                // 경로별 인가 작업
+//                .authorizeHttpRequests((auth) -> auth
+//                                                .requestMatchers("/login", "/","/join","/css/**", "/js/**").permitAll()
+//                                                .requestMatchers("/test/admin").hasRole("ADMIN")
+//                                                .anyRequest().authenticated())
+//                // 필터 추가  LoginFilter()를 인자로 받음 (AuthenticationManager() 메서드에  authenticationConfiguration 객체를 넣어야 함) 따라서 등록필요
+//                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
+//                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
+//                // 세션 설정
+//                .sessionManagement((session) -> session
+//                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 

@@ -4,6 +4,8 @@ import com.distribution.moneydistribution.domain.user.Users;
 import com.distribution.moneydistribution.domain.user.UsersRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ public class JoinService {
         this.usersRepository = usersRepository;
     }
 
-    public void joinUser(UserJoinDto joinDto) {
+    public ResponseEntity<String> joinUser(UserJoinDto joinDto) {
         String email = joinDto.getEmail();
         String password = joinDto.getPassword();
         String name = joinDto.getName();
@@ -27,43 +29,23 @@ public class JoinService {
         String nickName = joinDto.getNickName();
         int age = joinDto.getAge();
 
-        boolean isExist = usersRepository.existsByEmail(email);
+        boolean isExistEmail = usersRepository.existsByEmail(email);
+        boolean isExistNickName = usersRepository.existsByNickname(nickName);
 
-        if (isExist) {
-            return;
+
+        // 오류 발생 시켜야함
+        if (isExistEmail) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("아이디가 이미 존재합니다.");
+        }
+        if (isExistNickName) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 닉네임 입니다.");
         }
 
         Users user = Users.createUser(email, passwordEncoder.encode(password), name, phoneNum, nickName, age);
 
         usersRepository.save(user);
+        return ResponseEntity.ok("회원가입 성공!");
     }
 
 
-
-
-//    public Long joinUser(String email, String password, String name, String phoneNum, String nickname, int age){
-//        String encode = passwordEncoder.encode(password);
-//        log.info("encode : {} ", encode);
-//        Users users = Users.createUser(email,encode, name, phoneNum, nickname, age);
-//        validateDuplicateUser(users);
-//        log.info("여기가 문제임1");
-//        usersRepository.save(users);
-//        log.info("여기가 문제임2");
-//        return users.getId();
-//    }
-
-
-//    public Long join(String email, String password){
-//
-//        Users users = Users.createUser(email, passwordEncoder.encode(password));
-//        validateDuplicateUser(users);
-//        usersRepository.save(users);
-//        return users.getId();
-//    }
-
-//    private void validateDuplicateUser(Users users) {
-//        usersRepository.findByEmail(users.getEmail()).ifPresent(m -> {
-//            throw new IllegalStateException("이미 존재하는 회원입니다");
-//        });
-//    }
 }

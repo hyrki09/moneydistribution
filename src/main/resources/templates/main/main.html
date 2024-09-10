@@ -10,5 +10,22 @@
 <a href="/login">로그인</a>
 <a href="/join">회원가입</a>
 
+<p th:text="${role}"></p>
+
+<script>
+
+    console.log(localStorage.getItem('Authorization'));
+
+    fetch('/',{
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('Authorization'),  // JWT 토큰을 헤더에 포함
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json().then(data => console.log(data)))
+        .catch(error => console.error('Error:', error));
+</script>
+
 </body>
 </html>

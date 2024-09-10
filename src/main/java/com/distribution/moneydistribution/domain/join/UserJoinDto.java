@@ -1,5 +1,6 @@
 package com.distribution.moneydistribution.domain.join;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 

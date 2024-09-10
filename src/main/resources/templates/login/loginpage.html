@@ -213,7 +213,10 @@
 
             if (response.ok) {
                 console.log("Login successful : " + response);
+                localStorage.setItem("Authorization",response.headers.get('Authorization'))
                 alert('Login success');
+
+
                 window.location.href = '/';
             } else {
                 console.error('Login Failed : ' + response);
