@@ -1,6 +1,7 @@
 package com.distribution.moneydistribution.global.jwt;
 
 
+import com.distribution.moneydistribution.domain.user.MyUserDetails;
 import com.distribution.moneydistribution.domain.user.Users;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

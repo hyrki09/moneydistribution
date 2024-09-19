@@ -1,4 +1,4 @@
-package com.distribution.moneydistribution.global.jwt;
+package com.distribution.moneydistribution.domain.user;
 
 import com.distribution.moneydistribution.domain.user.Users;
 import org.springframework.security.core.GrantedAuthority;

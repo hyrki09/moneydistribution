@@ -2,7 +2,7 @@ package com.distribution.moneydistribution.domain.login;
 
 
 import com.distribution.moneydistribution.global.jwt.JWTUtil;
-import com.distribution.moneydistribution.global.jwt.MyUserDetails;
+import com.distribution.moneydistribution.domain.user.MyUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

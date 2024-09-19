@@ -17,9 +17,6 @@ public class LoginController {
     public String loginPage() {
         log.info("login 통과");
 
-
-
-
         return "login/loginpage";
     }
 

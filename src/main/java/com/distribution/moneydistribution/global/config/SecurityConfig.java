@@ -40,17 +40,27 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    // JWT 로그인 방식
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/","/login","/join","/css/**", "/js/**").permitAll()
+                        .requestMatchers("/","/login","/loginProcess","/join/**","/css/**", "/js/**", "/image/**").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
-                );
-
+                )
+                .formLogin((auth) -> auth.loginPage("/login")
+                        .loginProcessingUrl("/loginProcess")
+                        .permitAll())
+                .csrf((auth) -> auth.disable())
+                // 동시로그인 관련
+                .sessionManagement((auth) -> auth
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true))
+                .sessionManagement((auth) -> auth
+                        .sessionFixation().changeSessionId());
+// JWT 로그인 방식
 //        http
 //                .csrf((auth) -> auth.disable())
 //                .formLogin((auth) -> auth.disable())

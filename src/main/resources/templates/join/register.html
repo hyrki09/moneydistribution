@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,16 +8,51 @@
     <title>회원가입</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <style>
+        #email_multi{
+            display: -webkit-box;
+        }
+
+        #email_multi button{
+            transform: translate(20px, 19%);
+        }
+
+        .duplicationCheck{
+            width: 30px;
+            height: 30px;
+            background-image: url("/image/blackCheck.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: block;
+            margin-left: 10px;
+            margin-top: 2px;
+        }
+
+
+
+
+    </style>
 </head>
 
 <body>
+<div th:if="${errorMessage != null}" class="alert alert-danger" role="alert">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <div class="container">
-    <form class="form-signin" id='join_form'>
+    <form class="form-signin" id='join_form' action="/join" method="post">
         <h2 class="form-signin-heading text-center mb-5">회원가입!</h2>
 
-        <p>
+
+<!--        <img src="/image/blackCheck.png" alt="checkImg">-->
+        <p id="email_multi">
             <label for="email" class="sr-only">아이디</label>
             <input type="text" id="email" name="email" class="form-control" placeholder="아이디(이메일)" required="" autofocus="">
+            <button type="button" id="multiBtn">중복 검사</button>
+            <span id="statusIcon"></span>
         </p>
         <p>
             <label for="password" class="sr-only">비밀번호</label>
@@ -39,34 +74,55 @@
             <label for="age" class="sr-only">나이</label>
             <input type="text" id="age" name="age" class="form-control" placeholder="나이" required="">
         </p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">회원가입</button>
+        <button class="btn btn-lg btn-primary btn-block" type="button" id="registerButton">회원가입</button>
+        <br>
+        <a href="/login"><button class="btn btn-lg btn-primary btn-block" type="button">로그인</button></a>
     </form>
 
     <script>
-        const form = document.getElementById('join_form');
+        let isDuplicateChecked = false;
+        $(document).ready(function (){
+            // 중복 검사
+            $("#multiBtn").click(function (){
+                let email = $("#email").val();
 
-        form.addEventListener('submit', e => {
-            e.preventDefault();
+                if (email === "") {
+                    alert("아이디를 입력후 중복 검사를 눌러주세요.");
+                    return false;
+                }
 
-            const data = new FormData(form);
+                $.ajax({
+                    url : '/join/duplicateEmails',
+                    data : {
+                        email : email
+                    },
+                    method: 'POST',
+                    success : function (result){
+                        isDuplicateChecked = true;
+                        alert(result);
+                        $('#statusIcon').addClass('duplicationCheck'); // 체크 모양 표시
+                        $('#multiBtn').css('display', 'none');
 
+                    },
+                    error:function (request, status, error) {
+                        alert(request.responseText);
+                    }
+                })
+            });
 
-            fetch('/join', {
-                method: 'POST',
-                body: data
+            // 회원가입 누르기 전 검사
+            $("#registerButton").click(function (){
+                console.log("회원가입 버튼 클릭");
             })
-                .then(response => response.text()
-                    .then(message =>{
-                        if (response.status === 200) {
-                            window.location.href = "/";
-                            alert(message)
-                        } else {
-                            alert(message)
-                        }
-                }))
-                .catch(error => console.log(error))
-        });
+        })
+
+
+
     </script>
 </div>
+
+<!--<a href="https://www.flaticon.com/kr/free-icons/" title="진드기 아이콘">진드기 아이콘 제작자: Octopocto - Flaticon</a>-->
+<!--<a href="https://www.flaticon.com/kr/free-icon/check-mark_5291032" title="체크아이콘">진드기 아이콘 제작자: Octopocto - Flaticon</a>-->
+<!--<a href="https://www.flaticon.com/kr/free-icon/check-mark_5291032?term=%EC%B2%B4%ED%81%AC+%ED%91%9C%EC%8B%9C&page=1&position=3&origin=tag&related_id=5291032" title="체크아이콘">진드기 아이콘 제작자: Octopocto - Flaticon</a>-->
 </body>
 </html>

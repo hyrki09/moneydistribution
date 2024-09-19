@@ -32,23 +32,24 @@ public class IndexController {
     @GetMapping({"/"})
     public String main(Model model) {
         // 현재 사용자 아이디
-//        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
 //
 //        // 세션 현재 사용자 role
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //
-//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-//        GrantedAuthority auth = iterator.next();
-//        String role = auth.getAuthority();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
+        GrantedAuthority auth = iterator.next();
+        String role = auth.getAuthority();
 
 //        String username = jwtUtil.getUsername();
 
-//        log.info("index role : {}", role);
-//        log.info("name : {}",name);
+        log.info("index role : {}", role);
+        log.info("name : {}",name);
 
 
-//        model.addAttribute("role", role);
+        model.addAttribute("role", role);
+        model.addAttribute("name", name);
 //        return "main IndexController : " + name + role;
         log.info("메인이오~~");
         return "/main/main";

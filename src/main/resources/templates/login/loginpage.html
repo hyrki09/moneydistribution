@@ -156,13 +156,13 @@
 
 
 <main class="form-signin w-100 m-auto">
-    <form id="login-form">
+    <form id="login-form" method="post" action="/loginProcess">
 <!--        <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">
 <!--            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">-->
-            <input type="text" name="email" class="form-control" id="email" placeholder="name@example.com">
+            <input type="text" name="username" class="form-control" id="email" placeholder="name@example.com">
             <label for="email">Email address</label>
         </div>
         <div class="form-floating">
@@ -186,53 +186,53 @@
 <script src="/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    document.getElementById('login-form').addEventListener('submit', async function(event){
-        event.preventDefault();
-
-        const formData = new FormData();
-
-        const username = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        formData.append('username',username);
-        formData.append('password',password);
-
-        console.log("login page __ id : " + username);
-        console.log("login page __ password : " + password);
-
-        // API 요청
-        try {
-            const response = await fetch('/login', {
-                method: 'POST',
-                body: formData
-            });
-
-            console.log("response : " + response);
-            const data = await response.text();
-            console.log("data : " + response.ok);
-
-            if (response.ok) {
-                console.log("Login successful : " + response);
-                localStorage.setItem("Authorization",response.headers.get('Authorization'))
-                alert('Login success');
-
-
-                window.location.href = '/';
-            } else {
-                console.error('Login Failed : ' + response);
-                alert('Login Failed : ' + response.message);
-            }
-        } catch (error){
-            console.error('Error : ' + error);
-            alert('ERROR!!!');
-        }
-
-
-
-
-
-
-    })
+    // document.getElementById('login-form').addEventListener('submit', async function(event){
+    //     event.preventDefault();
+    //
+    //     const formData = new FormData();
+    //
+    //     const username = document.getElementById('email').value;
+    //     const password = document.getElementById('password').value;
+    //
+    //     formData.append('username',username);
+    //     formData.append('password',password);
+    //
+    //     console.log("login page __ id : " + username);
+    //     console.log("login page __ password : " + password);
+    //
+    //     // API 요청
+    //     try {
+    //         const response = await fetch('/login', {
+    //             method: 'POST',
+    //             body: formData
+    //         });
+    //
+    //         console.log("response : " + response);
+    //         const data = await response.text();
+    //         console.log("data : " + response.ok);
+    //
+    //         if (response.ok) {
+    //             console.log("Login successful : " + response);
+    //             localStorage.setItem("Authorization",response.headers.get('Authorization'))
+    //             alert('Login success');
+    //
+    //
+    //             window.location.href = '/';
+    //         } else {
+    //             console.error('Login Failed : ' + response);
+    //             alert('Login Failed : ' + response.message);
+    //         }
+    //     } catch (error){
+    //         console.error('Error : ' + error);
+    //         alert('ERROR!!!');
+    //     }
+    //
+    //
+    //
+    //
+    //
+    //
+    // })
 </script>
 
 </body>

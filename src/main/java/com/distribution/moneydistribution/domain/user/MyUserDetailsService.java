@@ -1,17 +1,10 @@
-package com.distribution.moneydistribution.global.jwt;
+package com.distribution.moneydistribution.domain.user;
 
-import com.distribution.moneydistribution.domain.user.Users;
-import com.distribution.moneydistribution.domain.user.UsersRepository;
-import com.distribution.moneydistribution.domain.user.UsersService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 @Slf4j
@@ -27,12 +20,11 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        log.info("loadUserByUsername");
         log.info("loadUserByUsername_username : {} ", username);
         Users users = usersRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("회원 없음"));
 
 
-        log.info("MyUserDetailService _ Users : {}", users);
+
         return new MyUserDetails(users);
     }
 }
