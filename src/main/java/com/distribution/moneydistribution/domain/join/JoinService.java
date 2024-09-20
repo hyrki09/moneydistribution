@@ -57,4 +57,8 @@ public class JoinService {
         return usersRepository.existsByEmail(email);
     }
 
+    public Boolean duplicateCheckNickName(String nickName) {
+        return usersRepository.existsByNickname(nickName);
+    }
+
 }

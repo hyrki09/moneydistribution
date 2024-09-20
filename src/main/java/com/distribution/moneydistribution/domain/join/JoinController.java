@@ -77,7 +77,6 @@ public class JoinController {
         Pattern pattern = Pattern.compile(REGEXP_EMAIL);
         Matcher matcher = pattern.matcher(email);
 
-//        boolean result = false;
 
         log.info("matcher : {}", matcher.matches());
         // 빈값 or email 형태로 안오면 return
@@ -88,11 +87,26 @@ public class JoinController {
         if (joinService.duplicateCheckEmail(email)) {
             log.info("2.email : {}", email);
             return ResponseEntity.badRequest().body("이미 존재하는 아이디입니다.");
-
         }
 
-
-//        return new ResponseEntity<>(result, HttpStatus.OK);
         return ResponseEntity.ok("사용 가능한 아이디입니다.");
     }
+
+
+
+    @PostMapping("/duplicateNickName")
+    @ResponseBody
+    public ResponseEntity<String> checkDuplicateNickName(@RequestParam String nickName){
+
+        if(nickName.trim().isEmpty()){
+            return ResponseEntity.badRequest().body("값을 입력해주세요.");
+        }
+        if (joinService.duplicateCheckNickName(nickName)) {
+            return ResponseEntity.badRequest().body("이미 존재하는 닉네임입니다.");
+        }
+
+        return ResponseEntity.ok("사용 가능한 닉네임입니다.");
+    }
+
+
 }

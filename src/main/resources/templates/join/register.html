@@ -30,6 +30,13 @@
             margin-left: 10px;
             margin-top: 2px;
         }
+        #nickName_multi{
+            display: -webkit-box;
+        }
+
+        #nickName_multi button{
+            transform: translate(20px, 19%);
+        }
 
 
 
@@ -52,7 +59,7 @@
             <label for="email" class="sr-only">아이디</label>
             <input type="text" id="email" name="email" class="form-control" placeholder="아이디(이메일)" required="" autofocus="">
             <button type="button" id="multiBtn">중복 검사</button>
-            <span id="statusIcon"></span>
+            <span id="emailStatusIcon"></span>
         </p>
         <p>
             <label for="password" class="sr-only">비밀번호</label>
@@ -62,9 +69,11 @@
             <label for="name" class="sr-only">이름</label>
             <input type="text" id="name" name="name" class="form-control" placeholder="이름" required="">
         </p>
-        <p>
+        <p id="nickName_multi">
             <label for="nickName" class="sr-only">닉네임</label>
             <input type="text" id="nickName" name="nickName" class="form-control" placeholder="닉네임" required="">
+            <button type="button" id="multiNickName">중복 검사</button>
+            <span id="nickNameStatusIcon"></span>
         </p>
         <p>
             <label for="personalPhone" class="sr-only">전화번호</label>
@@ -80,7 +89,8 @@
     </form>
 
     <script>
-        let isDuplicateChecked = false;
+        let isDuplicateEmailChecked = false;
+        let isDuplicateNickChecked = false;
         $(document).ready(function (){
             // 중복 검사
             $("#multiBtn").click(function (){
@@ -98,9 +108,9 @@
                     },
                     method: 'POST',
                     success : function (result){
-                        isDuplicateChecked = true;
+                        isDuplicateEmailChecked = true;
                         alert(result);
-                        $('#statusIcon').addClass('duplicationCheck'); // 체크 모양 표시
+                        $('#emailStatusIcon').addClass('duplicationCheck'); // 체크 모양 표시
                         $('#multiBtn').css('display', 'none');
 
                     },
@@ -110,9 +120,68 @@
                 })
             });
 
+            // 중복 검사
+            $("#multiNickName").click(function (){
+                let nickName = $("#nickName").val();
+
+                if (nickName === "") {
+                    alert("닉네임을 입력후 중복 검사를 눌러주세요.");
+                    return false;
+                }
+
+                $.ajax({
+                    url : '/join/duplicateNickName',
+                    data : {
+                        nickName : nickName
+                    },
+                    method: 'POST',
+                    success : function (result){
+                        console.log("성공");
+                        console.log(result);
+
+                        isDuplicateNickChecked = true;
+                        alert(result);
+                        $('#nickNameStatusIcon').addClass('duplicationCheck'); // 체크 모양 표시
+                        $('#multiNickName').css('display', 'none');
+
+                    },
+                    error:function (request, status, error) {
+                        console.log(request.responseText)
+                        alert(request.responseText);
+                    }
+                })
+            });
+
             // 회원가입 누르기 전 검사
             $("#registerButton").click(function (){
-                console.log("회원가입 버튼 클릭");
+                // 중복검사 체크
+                if (!isDuplicateEmailChecked) {
+                    alert("아이디 중복검사를 진행해주세요.")
+                    return false;
+                }else if(!isDuplicateNickChecked){
+                    alert("닉네임 중복검사를 진행해주세요.")
+                    return false;
+                }
+
+                // 휴대폰 정규식 체크
+                let phone = $("#personalPhone").val();
+                let regex = /^01(0|1|[6-9])[0-9]{3,4}[0-9]{4}$/;
+                if(!regex.test(phone)){
+                    alert("휴대폰 번호 : -(하이푼)없이 10~11자리 알맞는 전화번호 형태로 입력해주세요");
+                    $("#personalPhone").focus();
+                    return false;
+                }
+
+                // 나이 유효성 검사
+                let numRegex = /^[0-9]*$/;
+                let age = $("#age").val();
+
+                if(age === "" || !numRegex.test(age)){
+                    alert("나이를 입력해주세요.");
+                    return false;
+                }
+
+                $("#join_form").submit();
             })
         })
 

@@ -17,6 +17,7 @@ public class UserJoinDto {
     @NotNull
     private String name;
     @NotNull
+    @Pattern(regexp = "^01(0|1|[6-9])[0-9]{3,4}[0-9]{4}$")
     private String phoneNum;
     @NotNull
     private String nickName;
