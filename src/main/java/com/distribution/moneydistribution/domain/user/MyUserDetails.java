@@ -1,6 +1,5 @@
 package com.distribution.moneydistribution.domain.user;
 
-import com.distribution.moneydistribution.domain.user.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,10 +8,10 @@ import java.util.Collection;
 
 public class MyUserDetails implements UserDetails {
 
-    private final Users users;
+    private final User user;
 
-    public MyUserDetails(Users users) {
-        this.users = users;
+    public MyUserDetails(User user) {
+        this.user = user;
     }
 
     @Override
@@ -22,7 +21,7 @@ public class MyUserDetails implements UserDetails {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return users.getRole();
+                return user.getRole();
             }
         });
         return collection;
@@ -30,12 +29,12 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return users.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return users.getEmail();
+        return user.getEmail();
     }
 
     @Override
@@ -60,5 +59,9 @@ public class MyUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
 //        return UserDetails.super.isEnabled();
+    }
+
+    public User getUser(){
+        return user;
     }
 }

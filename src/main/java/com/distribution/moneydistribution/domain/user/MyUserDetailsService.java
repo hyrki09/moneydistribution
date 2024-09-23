@@ -11,20 +11,20 @@ import org.springframework.stereotype.Component;
 public class MyUserDetailsService implements UserDetailsService {
 //    private final UsersService usersService;
 
-    private final UsersRepository usersRepository;
+    private final UserRepository userRepository;
 
-    public MyUserDetailsService(UsersRepository usersRepository) {
-        this.usersRepository = usersRepository;
+    public MyUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         log.info("loadUserByUsername_username : {} ", username);
-        Users users = usersRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("회원 없음"));
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("회원 없음"));
 
 
 
-        return new MyUserDetails(users);
+        return new MyUserDetails(user);
     }
 }

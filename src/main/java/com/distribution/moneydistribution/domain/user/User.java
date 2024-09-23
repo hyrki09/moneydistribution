@@ -5,14 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Users extends BaseTimeEntity {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,8 +66,8 @@ public class Users extends BaseTimeEntity {
 //    }
 
 //     변형해야함
-    public static Users createUser(String email, String password, String name, String phoneNum, String nickname, int age) {
-        return new Users(null, email, password, name, phoneNum, nickname, age, "ROLE_ADMIN");
+    public static User createUser(String email, String password, String name, String phoneNum, String nickname, int age) {
+        return new User(null, email, password, name, phoneNum, nickname, age, "ROLE_ADMIN");
 //        return new Users(null, email, password, name, phoneNum, nickname, age, Role.USER);
 
     }

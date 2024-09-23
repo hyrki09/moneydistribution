@@ -1,12 +1,10 @@
 package com.distribution.moneydistribution.domain.join;
 
-import com.distribution.moneydistribution.domain.user.Users;
-import com.distribution.moneydistribution.domain.user.UsersRepository;
+import com.distribution.moneydistribution.domain.user.User;
+import com.distribution.moneydistribution.domain.user.UserRepository;
 import com.distribution.moneydistribution.global.exception.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +12,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class JoinService {
     private final PasswordEncoder passwordEncoder;
-    private final UsersRepository usersRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public JoinService(PasswordEncoder passwordEncoder, UsersRepository usersRepository) {
+    public JoinService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
-        this.usersRepository = usersRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -35,8 +33,8 @@ public class JoinService {
         String nickName = joinDto.getNickName();
         int age = joinDto.getAge();
 
-        boolean isExistEmail = usersRepository.existsByEmail(email);
-        boolean isExistNickName = usersRepository.existsByNickname(nickName);
+        boolean isExistEmail = userRepository.existsByEmail(email);
+        boolean isExistNickName = userRepository.existsByNickname(nickName);
 
         // 오류 발생 시켜야함
         if (isExistEmail) {
@@ -48,17 +46,17 @@ public class JoinService {
         }
 
 
-        Users user = Users.createUser(email, passwordEncoder.encode(password), name, phoneNum, nickName, age);
+        User user = User.createUser(email, passwordEncoder.encode(password), name, phoneNum, nickName, age);
 
-        usersRepository.save(user);
+        userRepository.save(user);
     }
 
     public Boolean duplicateCheckEmail(String email){
-        return usersRepository.existsByEmail(email);
+        return userRepository.existsByEmail(email);
     }
 
     public Boolean duplicateCheckNickName(String nickName) {
-        return usersRepository.existsByNickname(nickName);
+        return userRepository.existsByNickname(nickName);
     }
 
 }

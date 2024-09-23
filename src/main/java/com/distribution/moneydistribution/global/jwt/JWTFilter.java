@@ -2,7 +2,7 @@ package com.distribution.moneydistribution.global.jwt;
 
 
 import com.distribution.moneydistribution.domain.user.MyUserDetails;
-import com.distribution.moneydistribution.domain.user.Users;
+import com.distribution.moneydistribution.domain.user.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,14 +47,14 @@ public class JWTFilter extends OncePerRequestFilter {
         String username = jwtUtil.getUsername(token);
         String role = jwtUtil.getRole(token);
 
-        Users users = Users.builder()
+        User user = User.builder()
                 .email(username)
                 .password("temppassword")
                 .role(role)
                 .build();
 
         // UserDetail에 회원 정보 객체 담기
-        MyUserDetails myUserDetails = new MyUserDetails(users);
+        MyUserDetails myUserDetails = new MyUserDetails(user);
 
         // 스프링 시큐리티 인증 토큰 생성
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(myUserDetails, null, myUserDetails.getAuthorities());
