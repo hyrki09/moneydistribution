@@ -3,7 +3,6 @@ package com.distribution.moneydistribution.domain.user;
 import com.distribution.moneydistribution.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Getter
@@ -35,45 +34,18 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer age;
 
-//    @Enumerated(EnumType.STRING)
-    private String role; // 권한 -> USER, ADMIN
+    @Enumerated(EnumType.STRING)
+    private Role role; // 권한 -> USER, ADMIN
 
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "users")
 //    private List<sharedContainer> sharedContainers = new ArrayList<>();
 
 
-    // 정보 수정
-    public void updatePassword(PasswordEncoder passwordEncoder, String password) {
-        this.password = passwordEncoder.encode(password);
-    }
-
-//    public void updateName(String name) {
-//        this.name = name;
-//    }
-
-//    public void updateNickName(String nickname) {
-//        this.nickname = nickname;
-//    }
-
-//    public void updateAge(int age) {
-//        this.age = age;
-//    }
-
-    // 패스워드 암호화
-//    public void encodePassword(PasswordEncoder passwordEncoder) {
-//        this.password = passwordEncoder.encode(password);
-//    }
-
-//     변형해야함
     public static User createUser(String email, String password, String name, String phoneNum, String nickname, int age) {
-        return new User(null, email, password, name, phoneNum, nickname, age, "ROLE_ADMIN");
-//        return new Users(null, email, password, name, phoneNum, nickname, age, Role.USER);
+        return new User(null, email, password, name, phoneNum, nickname, age, Role.USER);
 
     }
-//    public static Users createUser(String email, String password) {
-//        return new Users(null, email, password, Role.USER);
-//    }
 
 
 }

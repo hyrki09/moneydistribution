@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class MyUserDetailsService implements UserDetailsService {
-//    private final UsersService usersService;
 
     private final UserRepository userRepository;
 
