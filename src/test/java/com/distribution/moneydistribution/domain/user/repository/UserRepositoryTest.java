@@ -26,7 +26,7 @@ class UserRepositoryTest {
     @Test
     public void save() {
         //given
-        User user = User.builder().name("테스트김").password("1234").email("test@naver.com").age(27).phoneNum("01012345678").nickname("nick").role(String.valueOf(Role.USER)).build();
+        User user = User.builder().name("테스트김").password("1234").email("test@naver.com").age(27).phoneNum("01012345678").nickname("nick").role(Role.USER).build();
 
         // when
         User saveUser = userRepository.save(user);
@@ -48,7 +48,7 @@ class UserRepositoryTest {
                             .email("test@naver.com")
                             .phoneNum("01012345678")
 //                            .nickname("nick")
-                            .role(String.valueOf(Role.USER))
+                            .role(Role.USER)
                             .build();
 
         // when, then
@@ -66,7 +66,7 @@ class UserRepositoryTest {
                 .email("test1@naver.com")
                 .phoneNum("01012345671")
                 .nickname("nick")
-                .role(String.valueOf(Role.USER))
+                .role(Role.USER)
                 .build();
         User user2 = User.builder()
                 .name("이름2")
@@ -75,7 +75,7 @@ class UserRepositoryTest {
                 .email("test2@naver.com")
                 .phoneNum("01012345672")
                 .nickname("nick")
-                .role(String.valueOf(Role.USER))
+                .role(Role.USER)
                 .build();
 
         userRepository.save(user1);
@@ -95,7 +95,7 @@ class UserRepositoryTest {
                 .email("test1@naver.com")
                 .phoneNum("01012345671")
                 .nickname("nick")
-                .role(String.valueOf(Role.USER))
+                .role(Role.USER)
                 .build();
         userRepository.save(user1);
         em.clear();
@@ -136,7 +136,7 @@ class UserRepositoryTest {
                 .email("test1@naver.com")
                 .phoneNum("01012345671")
                 .nickname("nick")
-                .role(String.valueOf(Role.USER))
+                .role(Role.USER)
                 .build();
 
         userRepository.save(user1);
@@ -163,7 +163,7 @@ class UserRepositoryTest {
                 .email(email)
                 .phoneNum("01012345671")
                 .nickname("nick")
-                .role(String.valueOf(Role.USER))
+                .role(Role.USER)
                 .build();
         userRepository.save(user1);
         em.clear();
@@ -186,7 +186,7 @@ class UserRepositoryTest {
                 .email(email)
                 .phoneNum("01012345671")
                 .nickname("nick")
-                .role(String.valueOf(Role.USER))
+                .role(Role.USER)
                 .build();
         userRepository.save(user1);
         em.clear();
