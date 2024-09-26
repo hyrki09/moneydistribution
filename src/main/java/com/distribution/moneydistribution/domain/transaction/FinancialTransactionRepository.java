@@ -10,4 +10,6 @@ public interface FinancialTransactionRepository extends JpaRepository<FinancialT
 
     List<FinancialTransaction> findAllByUser(User user);
 
+    Optional<FinancialTransaction> findByTransactionId(String TransactionId);
+
 }

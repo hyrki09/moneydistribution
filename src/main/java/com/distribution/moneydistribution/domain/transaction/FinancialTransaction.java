@@ -3,6 +3,7 @@ package com.distribution.moneydistribution.domain.transaction;
 import com.distribution.moneydistribution.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,6 +24,9 @@ public class FinancialTransaction {
     private BigDecimal amount;
     private String currency; // 통화 코드
     private String status;
+
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime paymentDate;
     private String customerPhone;
     private String cardLastFourDigits; // 카드 마지막 4자리
@@ -33,4 +37,19 @@ public class FinancialTransaction {
     private User user;
 
 
+    @Override
+    public String toString() {
+        return "FinancialTransaction{" +
+                "id=" + id +
+                ", transactionId='" + transactionId + '\'' +
+                ", amount=" + amount +
+                ", currency='" + currency + '\'' +
+                ", status='" + status + '\'' +
+                ", paymentDate=" + paymentDate +
+                ", customerPhone='" + customerPhone + '\'' +
+                ", cardLastFourDigits='" + cardLastFourDigits + '\'' +
+                ", authorizationCode='" + authorizationCode + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }
